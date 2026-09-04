@@ -1,0 +1,56 @@
+# Render Blueprint (https://render.com/docs/blueprint-spec)
+#
+# Usage: push this repo to GitHub, then on Render: New -> Blueprint -> pick
+# this repo. Render reads this file and creates both services automatically,
+# wires the frontend's VITE_API_BASE_URL to the backend's real deployed URL
+# (via `fromService`, no manual copy-pasting a URL), and redeploys both on
+# every push to main.
+#
+# NOT deployed/tested from this authoring environment (no internet access
+# there) — this is standard Render Blueprint syntax, but treat your first
+# "New Blueprint" run as the real test of this file.
+
+services:
+  - type: web
+    name: varshanetra-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    # Render injects $PORT; uvicorn must bind to it, not the hard-coded 8000
+    # used for local dev.
+    startCommand: PYTHONPATH=src uvicorn varshanetra.inference.api:app --host 0.0.0.0 --port $PORT
+    envVars:
+      # RENDER_EXTERNAL_URL is a Render-default env var Render sets
+      # automatically on every web service (its own public https:// URL).
+      # Referencing another service's RENDER_EXTERNAL_URL via envVarKey (not
+      # `property: host`, which returns only the private-network hostname)
+      # is how you get a real browser-reachable URL for CORS/API-base-url
+      # wiring between two Render services. Verified against Render's own
+      # Blueprint docs and example repos, not assumed.
+      - key: VARSHANETRA_ALLOWED_ORIGINS
+        fromService:
+          type: web
+          name: varshanetra-ui
+          envVarKey: RENDER_EXTERNAL_URL
+
+  - type: web
+    name: varshanetra-ui
+    runtime: static
+    plan: free
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: varshanetra-api
+          envVarKey: RENDER_EXTERNAL_URL
+    routes:
+      # SPA fallback: React Router handles client-side routes like
+      # /dashboard directly, not as separate files on disk — without this,
+      # refreshing on /dashboard 404s.
+      - type: rewrite
+        source: /*
+        destination: /index.html

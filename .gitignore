@@ -1,0 +1,68 @@
+# =============================================================================
+# VarshaNetra — root .gitignore (covers backend/ and frontend/)
+# =============================================================================
+
+# ----- Python (backend/) -----
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ----- Virtual environments -----
+.venv/
+venv/
+env/
+
+# ----- Environment variables -----
+.env
+.env.*
+!.env.example
+!frontend/.env.example
+
+# ----- Logs -----
+*.log
+logs/
+
+# ----- Node (frontend/) -----
+frontend/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ----- Build output -----
+frontend/dist/
+frontend/dist-ssr/
+build/
+coverage/
+
+# ----- IDE -----
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# ----- OS -----
+.DS_Store
+Thumbs.db
+
+# ----- Temporary -----
+*.tmp
+*.temp
+*.bak
+
+# ----- Regenerable raw/demo data -----
+# backend/checkpoints/*.pkl (trained models) and backend/outputs/* (ablation
+# results, sample predictions) are DELIBERATELY NOT ignored — they're small
+# (~6MB total) and are what makes `git clone && run` produce a working demo
+# immediately, and what lets a hackathon judge see real ablation-study
+# results without retraining first (see backend/outputs/ and
+# docs/model.md). Only genuinely regenerable/large raw data is ignored here:
+backend/data_samples/raw/*.pkl
+backend/data_samples/raw/*.parquet
+*.pkl.tmp
