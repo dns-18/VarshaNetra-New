@@ -4,19 +4,44 @@
 
 /**
  * VARSHANETRA Design System
- * Dark command-center interface
+ * Dark command-center interface with light mode support
  */
 
-:root {
+/* ─── Dark mode (default) ─── */
+.dark {
   color-scheme: dark;
 }
 
-* {
+.dark * {
   @apply border-surface-border;
 }
 
-html {
+.dark html,
+html.dark {
   @apply bg-surface-base text-text-primary;
+}
+
+/* ─── Light mode ─── */
+html:not(.dark) {
+  color-scheme: light;
+  --vn-bg-base: #f8fafc;
+  --vn-bg-secondary: #f1f5f9;
+  --vn-bg-elevated: #ffffff;
+  --vn-bg-tertiary: #e2e8f0;
+  --vn-border: #cbd5e1;
+  --vn-text-primary: #0f172a;
+  --vn-text-secondary: #475569;
+  --vn-text-muted: #94a3b8;
+  background-color: var(--vn-bg-base);
+  color: var(--vn-text-primary);
+}
+
+html:not(.dark) * {
+  border-color: var(--vn-border);
+}
+
+/* ─── Global base styles ─── */
+html {
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -31,24 +56,40 @@ body {
 
 /* Typography */
 h1 {
-  @apply text-4xl font-bold leading-tight text-text-primary;
+  @apply text-4xl font-bold leading-tight;
 }
 
 h2 {
-  @apply text-3xl font-semibold leading-tight text-text-primary;
+  @apply text-3xl font-semibold leading-tight;
 }
 
 h3 {
-  @apply text-2xl font-semibold leading-normal text-text-primary;
+  @apply text-2xl font-semibold leading-normal;
 }
 
 h4 {
-  @apply text-xl font-semibold leading-normal text-text-primary;
+  @apply text-xl font-semibold leading-normal;
 }
 
 p {
-  @apply text-base font-normal leading-normal text-text-secondary;
+  @apply text-base font-normal leading-normal;
   margin: 0;
+}
+
+/* Dark typography colors */
+.dark h1, .dark h2, .dark h3, .dark h4 {
+  @apply text-text-primary;
+}
+.dark p {
+  @apply text-text-secondary;
+}
+
+/* Light typography colors */
+html:not(.dark) h1, html:not(.dark) h2, html:not(.dark) h3, html:not(.dark) h4 {
+  color: var(--vn-text-primary);
+}
+html:not(.dark) p {
+  color: var(--vn-text-secondary);
 }
 
 /* Focus states for accessibility */
@@ -61,18 +102,82 @@ p {
   html {
     @apply text-sm;
   }
-
   h1 {
     @apply text-2xl;
   }
-
   h2 {
     @apply text-xl;
   }
-
   h3 {
     @apply text-lg;
   }
+}
+
+/* ─── Light mode utility overrides ─── */
+html:not(.dark) .bg-surface-base {
+  background-color: var(--vn-bg-base) !important;
+}
+html:not(.dark) .bg-surface-secondary {
+  background-color: var(--vn-bg-secondary) !important;
+}
+html:not(.dark) .bg-surface-elevated {
+  background-color: var(--vn-bg-elevated) !important;
+}
+html:not(.dark) .bg-surface-tertiary {
+  background-color: var(--vn-bg-tertiary) !important;
+}
+html:not(.dark) .border-surface-border {
+  border-color: var(--vn-border) !important;
+}
+html:not(.dark) .text-text-primary {
+  color: var(--vn-text-primary) !important;
+}
+html:not(.dark) .text-text-secondary {
+  color: var(--vn-text-secondary) !important;
+}
+html:not(.dark) .text-text-muted {
+  color: var(--vn-text-muted) !important;
+}
+html:not(.dark) .text-white {
+  color: var(--vn-text-primary) !important;
+}
+
+/* Light mode hardcoded dark backgrounds */
+html:not(.dark) .bg-\[\\#061019\],
+html:not(.dark) .bg-\[\\#071421\],
+html:not(.dark) .bg-\[\\#0a1725\],
+html:not(.dark) .bg-\[\\#06121f\],
+html:not(.dark) .bg-\[\\#10243c\] {
+  background-color: var(--vn-bg-elevated) !important;
+}
+
+html:not(.dark) .border-slate-600,
+html:not(.dark) .border-slate-700 {
+  border-color: var(--vn-border) !important;
+}
+
+html:not(.dark) .text-slate-100,
+html:not(.dark) .text-slate-200,
+html:not(.dark) .text-slate-300 {
+  color: var(--vn-text-secondary) !important;
+}
+
+html:not(.dark) .text-slate-400 {
+  color: var(--vn-text-muted) !important;
+}
+
+/* Light mode input fields */
+html:not(.dark) input,
+html:not(.dark) textarea,
+html:not(.dark) select {
+  background-color: var(--vn-bg-elevated) !important;
+  color: var(--vn-text-primary) !important;
+  border-color: var(--vn-border) !important;
+}
+
+html:not(.dark) input::placeholder,
+html:not(.dark) textarea::placeholder {
+  color: var(--vn-text-muted) !important;
 }
 
 /* Utility classes for design system */
@@ -121,4 +226,45 @@ p {
 
 .leaflet-container a.leaflet-popup-close-button {
   color: #0f172a;
+}
+
+/* ─── Smooth scroll ─── */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── GSAP animation utilities ─── */
+.gsap-reveal {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.gsap-reveal-up {
+  opacity: 0;
+  transform: translateY(30px);
+  will-change: transform, opacity;
+}
+
+.gsap-reveal-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  will-change: transform, opacity;
 }

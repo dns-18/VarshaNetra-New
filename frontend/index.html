@@ -1,10 +1,20 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>varshanetra</title>
+    <meta name="description" content="VarshaNetra — AI-powered terrain intelligence for rainfall monitoring, landslide risk assessment, and early warning systems." />
+    <title>VarshaNetra — Observe. Predict. Warn. Protect.</title>
+    <script>
+      // Prevent flash of wrong theme
+      (function(){
+        try {
+          var t = localStorage.getItem('varshanetra-theme');
+          if (t === 'light') document.documentElement.classList.remove('dark');
+        } catch(e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
