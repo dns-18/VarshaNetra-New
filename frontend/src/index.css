@@ -142,29 +142,7 @@ html:not(.dark) .text-white {
   color: var(--vn-text-primary) !important;
 }
 
-/* Light mode hardcoded dark backgrounds */
-html:not(.dark) .bg-\[\\#061019\],
-html:not(.dark) .bg-\[\\#071421\],
-html:not(.dark) .bg-\[\\#0a1725\],
-html:not(.dark) .bg-\[\\#06121f\],
-html:not(.dark) .bg-\[\\#10243c\] {
-  background-color: var(--vn-bg-elevated) !important;
-}
 
-html:not(.dark) .border-slate-600,
-html:not(.dark) .border-slate-700 {
-  border-color: var(--vn-border) !important;
-}
-
-html:not(.dark) .text-slate-100,
-html:not(.dark) .text-slate-200,
-html:not(.dark) .text-slate-300 {
-  color: var(--vn-text-secondary) !important;
-}
-
-html:not(.dark) .text-slate-400 {
-  color: var(--vn-text-muted) !important;
-}
 
 /* Light mode input fields */
 html:not(.dark) input,
